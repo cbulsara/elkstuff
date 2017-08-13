@@ -36,19 +36,25 @@ def writeIndex(headers, types):
     outbuffer = []
     outbuffer.append("{")
     outbuffer.append("\t" + '"mappings": {')
-    outbuffer.append("\t\t" + '"logs": {')
+    outbuffer.append("\t\t" + '"_default_": {')
     outbuffer.append("\t\t\t" + '"properties": {')
     outbuffer.append("\t\t\t\t" + '"@timestamp": {')
     outbuffer.append("\t\t\t\t\t" + '"type": "date"')
     outbuffer.append("\t\t\t\t" + "},")
     outbuffer.append("\t\t\t\t" + '"@version": {')
-    outbuffer.append("\t\t\t\t\t" + '"type": "string"')
+    outbuffer.append("\t\t\t\t\t" + '"type": "keyword"')
     outbuffer.append("\t\t\t\t" + '},')
 
     #Zip the header and types lists, iterate and append to outbuffer with appropriate formatting.
     for h, t in zip(headers,types):
         outbuffer.append("\t\t\t\t" + '"' + h + '"' + ": {")
-        outbuffer.append("\t\t\t\t\t" + '"type":' + ' "' + t + '"')
+        
+        if t == 'date':
+            outbuffer.append("\t\t\t\t\t" + '"type":' + ' "' + t + '",')
+            outbuffer.append("\t\t\t\t\t" + '"format": "MM/dd/yyyy"')
+        else:
+            outbuffer.append("\t\t\t\t\t" + '"type":' + ' "' + t + '"')            
+
         outbuffer.append("\t\t\t\t" + "},")
     #Eliminate the final trailing comma
     outbuffer[-1] = outbuffer[-1].replace(",", "")
@@ -98,7 +104,9 @@ for i in sys.argv[1:]:
     print acceptable_inputs
     for h in list(f):
         while True:
-            column_type = raw_input("Enter data type of " + h + ": ")
+            column_type = raw_input("Enter data type of " + h + " (default=keyword): ")
+            if not column_type:
+                column_type = 'keyword'
             try:
                 column_type = column_type.lower()
             except ValueError:

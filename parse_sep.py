@@ -27,7 +27,12 @@ keep_cols = ['Computer_Name', 'Measure_Date',
             'Firefox_Browser_Protection_On', 'Early_Launch_Antimalware_On',
              'Server_Name', 'MAC_Address1']
 
-#---------------------------------------
+#Define strings in Computer_Name field that should trigger exclusions.
+#For example, we want to exclude Generic CIs, so we add 'CI - ' to
+#the list of exclusion terms.
+asset_exclusions = ['CI - ']
+
+
 
 def addMeasureDate(df):
     measure_date = raw_input("Enter measurement date as MM/DD/YYYY: ")
@@ -54,9 +59,14 @@ def joinCMDB(left_frame):
         df.loc[df['found'] == 'right_only', 'Computer_Name'] = df['name']               ##SEP-specific: when joining with the CMDB, there will be many
                                                                                         ##entries that do not have an opposite in SEP. In these cases,
                                                                                         ##copy the CMDB name to the Computer_Name field for continuity.
-    
+
     else:
         print("Not joining.")
+    return df
+
+def removeExclusions(df):
+    for s in asset_exclusions:
+        df = df[~df.Computer_Name.str.contains(s)]
     return df
 
 #-----------------------------------------, 
@@ -83,6 +93,8 @@ for i in sys.argv[1:]:
     pruneDate(df)
 
     df = joinCMDB(df)
+
+    df = removeExclusions(df)
 
     newfilename = raw_input("Enter name of output file: ")
     df.to_csv(newfilename, index=False)
