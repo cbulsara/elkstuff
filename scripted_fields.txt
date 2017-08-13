@@ -1,0 +1,49 @@
+#----------------------------------
+# Healthy
+#
+# Aggregate interrogate indices for
+# desired configuration values. 
+# Return True if all criteria met.
+# Return False otherwise.
+#
+# Language: painless
+# Type: string
+# Format: string
+# Transform: none
+#----------------------------------
+
+def scanAge = (doc['Measure_Date'].value - doc['Last_Scan_Time'].value) / (1000 * 60 * 60 * 24);
+def patternAge = (doc['Measure_Date'].value - doc['Pattern_Date'].value) / (1000 * 60 * 60 * 24);
+
+if (doc['Status'].value == "Enabled" && doc['Auto_Protect_On'].value == "Enabled" && scanAge < 6 && patternAge < 6) {return "True";}
+else {return "False";}
+
+#----------------------------------
+# Scan_Age
+#
+# Calculate difference between
+# Measure_Date and Last_Scan_Time 
+# to arrive at scan age.
+#
+# Language: painless
+# Type: number
+# Format: number
+# Transform: none
+#----------------------------------
+
+(doc['Measure_Date'].value - doc['Last_Scan_Time'].value) / (1000 * 60 * 60 * 24)
+
+#----------------------------------
+# Pattern_Age
+#
+# Calculate difference between
+# Measure_Date and Pattern_Date to
+# arrive at pattern age
+#
+# Language: painless
+# Type: number
+# Format: number
+# Transform: none
+#----------------------------------
+
+(doc['Measure_Date'].value - doc['Pattern_Date'].value) / (1000 * 60 * 60 * 24)
