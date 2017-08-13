@@ -1,7 +1,7 @@
 #!/usr/bin/python2.7
 
 #---------------------------------------
-#parse_sep.py
+#parse_cmdb.py
 #
 #Scripting necessary to sanitize output
 #from SNOW CMDB and prep it for joining 
