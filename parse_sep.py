@@ -49,7 +49,12 @@ def joinCMDB(left_frame):
         cmdb_path = raw_input("Enter path/filename of CMDB file: ")
         right_frame = pd.read_csv(cmdb_path)
 
-        df = left_frame.merge(right_frame, how='outer', left_on='Computer_Name', right_on='name', indicator=True)
+        df = left_frame.merge(right_frame, how='outer', left_on='Computer_Name', right_on='name', indicator='found')
+    
+        df.loc[df['found'] == 'right_only', 'Computer_Name'] = df['name']               ##SEP-specific: when joining with the CMDB, there will be many
+                                                                                        ##entries that do not have an opposite in SEP. In these cases,
+                                                                                        ##copy the CMDB name to the Computer_Name field for continuity.
+    
     else:
         print("Not joining.")
     return df
