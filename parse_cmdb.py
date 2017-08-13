@@ -86,7 +86,7 @@ df2 = pd.read_csv(sys.argv[2])
 df1 = pruneColumns(df1)
 df2 = pruneColumns(df2)
 
-df3 = concatWorkstationsServers(df2, df2)
+df3 = concatWorkstationsServers(df1, df2)
 
 df3 = renameColumns(df3)
 
