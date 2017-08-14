@@ -15,8 +15,12 @@
 def scanAge = (doc['Measure_Date'].value - doc['Last_Scan_Time'].value) / (1000 * 60 * 60 * 24);
 def patternAge = (doc['Measure_Date'].value - doc['Pattern_Date'].value) / (1000 * 60 * 60 * 24);
 
-if (doc['Status'].value == "Enabled" && doc['Auto_Protect_On'].value == "Enabled" && scanAge < 6 && patternAge < 6) {return "True";}
-else {return "False";}
+if (doc['Status'].value == "Enabled" && doc['Auto_Protect_On'].value == "Enabled" && scanAge < 6 && patternAge < 6 &&
+    doc['found'].value != "right_only" && doc['Antivirus_engine_On'].value == "Enabled" && doc['Download_Insight_On'].value =~ /Enabled/ &&
+    doc['Firefox_Browser_Protection_On'].value == "Enabled" && doc['IE_Browser_Protection_On'].value == "Enabled" &&
+    doc['Intrusion_Prevention_On'].value == "Enabled" && doc['SONAR_On'].value == "Enabled" && doc['Tamper_Protection_On'].value == "Enabled" &&
+    (doc['Client_Version'].value =~ /12.1.7/ || doc['Client_Version'].value =~ /14/)) {return "Protected";}
+else {return "Not Protected";}
 
 #----------------------------------
 # Scan_Age
@@ -47,3 +51,23 @@ else {return "False";}
 #----------------------------------
 
 (doc['Measure_Date'].value - doc['Pattern_Date'].value) / (1000 * 60 * 60 * 24)
+
+#----------------------------------
+# In_CMDB
+#
+# Checks 'found' to see whether
+# host was in SEPM, CMDB, or both.
+# Values "both" and "right_only"
+# indicate that the host is in the
+# CMDB.
+# Returns "In CMDB" if endpoint was
+# found in the CMDB, "Not In CMDB" 
+# otherwise. 
+# Language: painless
+# Type: string
+# Format: string
+# Transform: none
+#------------------------------------
+
+if (doc['found'].value != "left_only") {return "In CMDB";}
+else {return "Not in CMDB";}
