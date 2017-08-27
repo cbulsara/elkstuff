@@ -1,0 +1,43 @@
+{
+	"mappings": {
+		"_default_": {
+			"properties": {
+				"@timestamp": {
+					"type": "date"
+				},
+				"@version": {
+					"type": "keyword"
+				},
+				"number": {
+					"type": "keyword"
+				},
+				"priority": {
+					"type": "keyword"
+				},
+				"state": {
+					"type": "keyword"
+				},
+				"assignment_group": {
+					"type": "keyword"
+				},
+				"short_description": {
+					"type": "text"
+				},
+				"sys_class_name": {
+					"type": "keyword"
+				},
+				"sys_created_on": {
+					"type": "date",
+					"format": "yyyy-MM-dd HH:mm:ss"
+				},
+				"closed_at": {
+					"type": "date",
+					"format": "yyyy-MM-dd HH:mm:ss"
+				},
+				"duration": {
+					"type": "integer"
+				}
+			}
+		}
+	}
+}

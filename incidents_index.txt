@@ -1,0 +1,49 @@
+{
+	"mappings": {
+		"_default_": {
+			"properties": {
+				"@timestamp": {
+					"type": "date"
+				},
+				"@version": {
+					"type": "keyword"
+				},
+				"number": {
+					"type": "keyword"
+				},
+				"opened_at": {
+					"type": "date",
+					"format": "yyyy-MM-dd HH:mm:ss"
+				},
+				"short_description": {
+					"type": "text"
+				},
+				"priority": {
+					"type": "keyword"
+				},
+				"state": {
+					"type": "keyword"
+				},
+				"subcategory": {
+					"type": "keyword"
+				},
+				"closed_at": {
+					"type": "date",
+					"format": "yyyy-MM-dd HH:mm:ss"
+				},
+				"close_notes": {
+					"type": "text"
+				},
+				"current_impact": {
+					"type": "keyword"
+				},
+				"future_impact": {
+					"type": "keyword"
+				},
+				"calendar_duration": {
+					"type": "integer"
+				}
+			}
+		}
+	}
+}
